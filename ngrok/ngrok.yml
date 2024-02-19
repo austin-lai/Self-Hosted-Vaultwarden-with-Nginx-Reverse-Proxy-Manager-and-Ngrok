@@ -1,0 +1,26 @@
+# https://ngrok.com/docs/secure-tunnels/ngrok-agent/reference/config/#metadata
+# https://ngrok.com/docs/api/
+authtoken: YOUR_NGROK_AUTH_TOKEN
+api_key: YOUR_NGROK_API_KEY
+connect_timeout: 30s
+console_ui: true
+console_ui_color: transparent
+dns_resolver_ips:
+  - 1.1.1.1
+  - 8.8.8.8
+heartbeat_interval: 1m
+heartbeat_tolerance: 5s
+inspect_db_size: 50000000 # 50MB
+# log_level: debug
+log_level: info
+log_format: json
+log: /var/log/ngrok.json
+metadata: '{"name": "example"}'
+version: 2
+web_addr: 0.0.0.0:4040
+tunnels:
+  example:
+    labels:
+      - edge=YOUR_EDGE_ID
+    addr: http://vaultwarden:80
+    inspect: false

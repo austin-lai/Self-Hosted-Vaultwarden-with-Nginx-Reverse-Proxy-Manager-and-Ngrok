@@ -1,0 +1,35 @@
+
+version: "3.9"
+
+networks:
+  shbwvwwnat-network:
+    external: true
+
+services:
+  ngrok:
+    env_file:
+      - path: ./.env
+        required: true
+    image: ${NGROK_IMAGE_TAG}
+    container_name: ${NGROK_CONTAINER_NAME}
+    volumes:
+      - "./ngrok/ngrok.yml:/etc/ngrok.yml"
+      - "./ngrok/ngrok.json:/var/log/ngrok.json:rw"
+    environment:
+      # Uncomment this if you want to change the location of the SQLite DB file within the container
+      # - DB_SQLITE_FILE="/data/database.sqlite"
+      - DISABLE_IPV6=${DISABLE_IPV6}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    restart: ${RESTART_STATUS}
+    networks:
+      - shbwvwwnat-network
+    ports:
+      - 8881:4040
+    security_opt:
+      - no-new-privileges:${NO_NEW_PRIVILEGES}
+    command:
+      - "start"
+      - "--all"
+      - "--config"
+      - "/etc/ngrok.yml"
